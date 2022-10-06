@@ -39,6 +39,7 @@ const drawGuideLineCanvasCenter = (directionLine, coord, canvasDimentions) => {
   if (document.getElementById(directionLine + coord)) {
     return
   }
+  
   const root = document.getElementById("root")
   const line = document.createElement("div")
   line.style.position = "absolute"
@@ -174,6 +175,7 @@ export const getGuidLines = (
   lineDirection,
   coordAxes
 ) => {
+  
   const element = e.target
   removeGuideLine(lineDirection, coordAxes)
   dragPointsArr.forEach((dragAxes) => {
