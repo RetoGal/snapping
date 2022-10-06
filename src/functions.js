@@ -1,4 +1,4 @@
-const SNAP_THRESH = 5
+const SNAP_THRESH = 3
 const MOUSE_POWER = 3
 export const VERTICAL_LINE = "vertical"
 export const HORIZONTAL_LINE = "horiznoral"
