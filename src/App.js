@@ -14,9 +14,7 @@ function App() {
   const [layers, setLayers] = useState([])
   const createNewLayers = () => setLayers([...layers, layers.length + 1])
 
-  function mouseDown(e) {
-    window.addEventListener("mousemove", mouseMove, false)
-    window.addEventListener("mouseup", mouseUp, false)
+  const mouseDown = (e) => {
     const element = e.target
 
     let clickX = e.clientX
@@ -28,14 +26,16 @@ function App() {
 
     const { top: initialTop, left: initialLeft } = element.style
 
-    function mouseMove(e) {
+    const mouseMove = (e) => {
       const deltaX = clickX - e.clientX
       const deltaY = clickY - e.clientY
       const diffMouseX = iinitialX - e.clientX
       const diffMouseY = iinitialY - e.clientY
       const rect = element.getBoundingClientRect()
+
       const snapPoints = getSnapPointsCoords()
       const dragPoints = getDraggingPointsCoords(rect)
+
       const draggineElementCoords = {
         x: Math.round(rect.left),
         y: Math.round(rect.top),
@@ -82,30 +82,37 @@ function App() {
       )
     }
 
-    function mouseUp() {
+    const mouseUp = () => {
       const allLayers = document.querySelectorAll(".layer")
       allLayers.forEach((layer) => {
         layer.classList.remove("draggingLayer")
       })
 
       window.removeEventListener("mousemove", mouseMove)
-      window.removeEventListener("mouseup", mouseUp)
     }
+
+    window.addEventListener("mousemove", mouseMove, false)
+    window.addEventListener("mouseup", mouseUp, false)
   }
 
-  useEffect(() => {
-    layers.map((id) => {
-      const element = document.getElementById(id)
-      element.addEventListener("mousedown", mouseDown)
-    })
-  })
+  useEffect(() =>
+    layers.forEach((id) =>
+      document.getElementById(id).addEventListener("mousedown", mouseDown)
+    )
+  )
 
   return (
     <>
       <Styled.Button onClick={createNewLayers}> addNewLayer </Styled.Button>
 
       {layers.map((layer) => {
-        return <NewLayers id={layer} key={layer} className={"layer"} />
+        return (
+          <NewLayers
+            id={layer}
+            key={layer}
+            className={"layer"}
+          />
+        )
       })}
     </>
   )
